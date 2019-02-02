@@ -1,12 +1,8 @@
-<?php 
+<?php
+include 'koneksi.php';
 $soil = $_GET['soil'];
-$suhu = $_GET['suhu'];
+$temp = $_GET['temp'];
 
-include "koneksi.php";
-$php = mysql_query("INSERT INTO `data`(`id`, `suhu`, `soil`, `date`) VALUES (null, $suhu, '$soil', null)");
-if ($php == true){
-	echo "succes";
-} else {
-	echo "failed";
-}
+$queryResult = $connect->query("INSERT INTO data (id, soil, suhu, date, produk) values (null,'$soil','$temp',null,'a')");
+if($queryResult===false) echo $connect->error;
 ?>

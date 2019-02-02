@@ -9,4 +9,4 @@ while($fetchData=$queryResult->fetch_assoc()){
 }
 
 echo json_encode($result);
- ?>
+?>

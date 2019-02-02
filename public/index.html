@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Monitoring Tanaman</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div align="center" style="margin-top: 2%;margin-bottom: 5%;"><h3>Monitoring Tanaman<h3></div>
+    <div class="row">
+        <div class="col-md-1 col-sm-6 d-flex justify-content-end"><i id="tempIcon" class="fas fa-temperature-high" style="font-size: 30px; padding-bottom: 5px"></i></div>
+        <div class="col-md-11">
+            <div class="progress">
+            <div id="valueTemp" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5%">
+        <div class="col-md-1 col-sm-6 d-flex justify-content-end"><i id="soilIcon" class="fas fa-tint" style="font-size: 30px; padding-bottom: 5px"></i></div>
+        <div class="col-md-11">
+            <div class="progress">
+            <div id="valueSoil" class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- script -->
+    <script>
+        onLoad();
+
+        function onLoad(){
+            var value;
+            var dataHandler = $("label");
+            dataHandler.html('');
+            $.ajax({
+                type  : 'GET',
+                data : '',
+                url : 'ambilData.php',
+                success : function(result){
+                    var obj= JSON.parse(result);
+                    valueTemp = obj.suhu;
+                    valueSoil = obj.soil;
+                    $('#valueTemp').css('width', valueTemp+'%');
+                    $('#valueTemp').html(valueTemp +' %');
+                    $('#valueSoil').css('width', valueSoil+'%');
+                    $('#valueSoil').html(valueSoil +' %');
+                    if(valueSoil>=80) {
+                        $('#valueSoil').addClass('bg-danger');
+                        $('#soilIcon').css('color', 'red');
+                    }
+                    else if(valueSoil>=60) {
+                        $('#valueSoil').addClass('bg-warning');
+                        $('#soilIcon').css('color', 'orange');
+                    }
+                    else if(valueSoil>=40) {
+                        $('#valueSoil').addClass('bg-succes');
+                        $('#soilIcon').css('color', 'green');
+                    }
+                    else {
+                        $('#valueSoil').addClass('bg-info');
+                        $('#soilIcon').css('color', 'blue');
+                    }
+                    //-----Temperature
+                    if(valueTemp>=80) {
+                        $('#valueTemp').addClass('bg-danger');
+                        $('#tempIcon').css('color', 'red');
+                    }
+                    else if(valueTemp>=60) {
+                        $('#valueTemp').addClass('bg-warning');
+                        $('#tempIcon').css('color', 'orange');
+                    }
+                    else if(valueTemp>=40) {
+                        $('#valueTemp').addClass('bg-succes');
+                        $('#tempIcon').css('color', 'green');
+                    }
+                    else {
+                        $('#valueTemp').addClass('bg-info');
+                        $('#tempIcon').css('color', 'blue');
+                    }
+                }
+            })
+            //document.getElementById("value").innerHTML="34";
+            //document.getElementById("data").className=classProgress;
+        }
+    </script>
+</body>
+</html>
